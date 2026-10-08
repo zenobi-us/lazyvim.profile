@@ -36,5 +36,6 @@ map({ "n", "i" }, "<C-Left>", "<C-Left>", { desc = "Move back one word" })
 map({ "n", "i" }, "<C-Right>", "<C-Right>", { desc = "Move forward one word" })
 
 -- Mouse actions require terminal mouse support and a terminal that sends these keys.
+map("n", "<2-LeftMouse>", vim.lsp.buf.definition, { desc = "Go to definition" })
 map("n", "<C-LeftMouse>", vim.lsp.buf.definition, { desc = "Go to definition" })
 map("n", "<A-LeftMouse>", vim.lsp.buf.type_definition, { desc = "Go to type definition" })

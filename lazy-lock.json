@@ -31,6 +31,7 @@
   "mini.icons": { "branch": "main", "commit": "f642e3ba8c12afbc8f32f6d77ef6597eac56786f" },
   "mini.move": { "branch": "main", "commit": "48fcaac289a19b8eff2fd5fe203267d478a8abdc" },
   "mini.pairs": { "branch": "main", "commit": "b1c5a726921b7a8c9321e9a7a208aa0571de5810" },
+  "monoglow.nvim": { "branch": "main", "commit": "a249b1f55bfe9171e2f8aff7acf140f78ca4b2bb" },
   "nofrils": { "branch": "master", "commit": "bad6e490846e098866136ef20fff31e99f428bb9" },
   "noice.nvim": { "branch": "main", "commit": "7bfd942445fb63089b59f97ca487d605e715f155" },
   "noirblaze-vim": { "branch": "master", "commit": "03132e01915d261ce5a8812ec633ff63d84718a1" },

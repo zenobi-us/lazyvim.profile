@@ -3,7 +3,7 @@
 return {
   {
     "LazyVim/LazyVim",
-    opts = { colorscheme = "phoenix" },
+    opts = { colorscheme = vim.env.NEOVIM_THEME_NAME or "skull" },
   },
   { "andreasvc/vim-256noir", lazy = true },
   { "Alligator/accent.vim", lazy = true },
@@ -51,4 +51,5 @@ return {
   { "kvrohit/rasmus.nvim", lazy = true },
   -- lush.nvim is a colorscheme framework dependency used by some schemes.
   { "rktjmp/lush.nvim", lazy = true },
+  { "wnkz/monoglow.nvim", lazy = true },
 }

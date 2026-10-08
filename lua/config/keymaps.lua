@@ -10,15 +10,22 @@ map({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr>", { desc = "Save" })
 map({ "n", "i", "v" }, "<C-w>", "<cmd>bd<cr>", { desc = "Close buffer" })
 map({ "n", "i", "v" }, "<C-q>", "<cmd>qa<cr>", { desc = "Quit Neovim" })
 
--- System clipboard. In normal mode, Ctrl+C copies the current line.
-map("n", "<C-c>", "+yy", { desc = "Copy line" })
+-- System clipboard. Copy or cut the current line when no text is selected.
+map("n", "<C-c>", '"+yy', { desc = "Copy line" })
 map("v", "<C-c>", '"+y', { desc = "Copy selection" })
+map("n", "<C-x>", '"+dd', { desc = "Cut line" })
 map("v", "<C-x>", '"+d', { desc = "Cut selection" })
 map("n", "<C-v>", '"+p', { desc = "Paste after cursor" })
 map("i", "<C-v>", "<C-r>+", { desc = "Paste" })
 map("v", "<C-v>", '"+p', { desc = "Paste over selection" })
 
--- Move the current line or selected lines with Ctrl+Shift+p/Down.U
+-- Extend a linewise selection with Shift+Up/Down.
+map("n", "<S-Up>", "V<Up>", { desc = "Select lines up" })
+map("n", "<S-Down>", "V<Down>", { desc = "Select lines down" })
+map("x", "<S-Up>", "<Up>", { desc = "Extend selection up" })
+map("x", "<S-Down>", "<Down>", { desc = "Extend selection down" })
+
+-- Move the current line or selected lines with Ctrl+Shift+Up/Down.
 map("n", "<C-S-Up>", ":move .-2<cr>==", { desc = "Move line up" })
 map("n", "<C-S-Down>", ":move .+1<cr>==", { desc = "Move line down" })
 map("v", "<C-S-Up>", ":move '<-2<cr>gv=gv", { desc = "Move selection up" })

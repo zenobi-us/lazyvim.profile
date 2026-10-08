@@ -1,6 +1,10 @@
 -- Custom keymaps. Loaded by LazyVim on VeryLazy.
 local map = vim.keymap.set
 
+-- Comment current line or selected lines.
+map("n", "<leader>/", "gcc", { remap = true, desc = "Comment line" })
+map("v", "<leader>/", "gc", { remap = true, desc = "Comment selection" })
+
 -- Save, close current buffer, quit all.
 map({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr>", { desc = "Save" })
 map({ "n", "i", "v" }, "<C-w>", "<cmd>bd<cr>", { desc = "Close buffer" })
@@ -13,6 +17,12 @@ map("v", "<C-x>", '"+d', { desc = "Cut selection" })
 map("n", "<C-v>", '"+p', { desc = "Paste after cursor" })
 map("i", "<C-v>", "<C-r>+", { desc = "Paste" })
 map("v", "<C-v>", '"+p', { desc = "Paste over selection" })
+
+-- Move the current line or selected lines with Ctrl+Shift+p/Down.U
+map("n", "<C-S-Up>", ":move .-2<cr>==", { desc = "Move line up" })
+map("n", "<C-S-Down>", ":move .+1<cr>==", { desc = "Move line down" })
+map("v", "<C-S-Up>", ":move '<-2<cr>gv=gv", { desc = "Move selection up" })
+map("v", "<C-S-Down>", ":move '>+1<cr>gv=gv", { desc = "Move selection down" })
 
 -- Word navigation; terminal support for modified arrow keys varies.
 map({ "n", "i" }, "<C-Left>", "<C-Left>", { desc = "Move back one word" })

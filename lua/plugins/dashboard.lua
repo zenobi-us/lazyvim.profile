@@ -19,6 +19,20 @@ return {
       opts = opts or {}
       opts.dashboard = { sections = { logo.section, { section = "startup" } } }
       opts.picker = opts.picker or {}
+      opts.picker.sources = opts.picker.sources or {}
+      opts.picker.sources.explorer = opts.picker.sources.explorer or {}
+      opts.picker.sources.explorer.layout = {
+        preview = false,
+        layout = {
+          box = "vertical",
+          width = 40,
+          min_width = 40,
+          height = 0,
+          position = "left",
+          border = "none",
+          { win = "list", border = "none" },
+        },
+      }
       opts.picker.actions = opts.picker.actions or {}
       opts.picker.actions.save_theme = function(picker)
         local item = picker:current()

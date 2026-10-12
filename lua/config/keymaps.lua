@@ -36,6 +36,10 @@ map({ "n", "i" }, "<C-Left>", "<C-Left>", { desc = "Move back one word" })
 map({ "n", "i" }, "<C-Right>", "<C-Right>", { desc = "Move forward one word" })
 
 -- Mouse actions require terminal mouse support and a terminal that sends these keys.
-map("n", "<2-LeftMouse>", vim.lsp.buf.definition, { desc = "Go to definition" })
-map("n", "<C-LeftMouse>", vim.lsp.buf.definition, { desc = "Go to definition" })
-map("n", "<A-LeftMouse>", vim.lsp.buf.type_definition, { desc = "Go to type definition" })
+-- `goto_thing` falls back to the file path under the cursor when no language
+-- server is attached, so a double click still opens an imported file.
+local goto_thing = require("config.goto-thing").goto_thing
+map("n", "<2-LeftMouse>", function() goto_thing("definition") end, { desc = "Go to definition" })
+map("n", "<C-LeftMouse>", function() goto_thing("definition") end, { desc = "Go to definition" })
+map("n", "<A-LeftMouse>", function() goto_thing("type_definition") end, { desc = "Go to type definition" })
+map("n", "gd", function() goto_thing("definition") end, { desc = "Go to definition" })

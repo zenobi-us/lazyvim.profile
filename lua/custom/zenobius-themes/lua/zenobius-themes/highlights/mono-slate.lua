@@ -189,7 +189,7 @@ function M.groups()
     ["@markup.link.label"] = { fg = p.accent },
     ["@markup.link.url"] = { fg = p.good, underline = true },
     ["@markup.raw"] = { fg = p.good },
-    ["@markup.raw.block"] = { fg = p.good },
+    ["@markup.raw.block"] = { fg = p.good, bg = p.bg_float },
     ["@markup.list"] = { fg = p.accent },
     ["@markup.list.checked"] = { fg = p.good },
     ["@markup.list.unchecked"] = { fg = p.muted },

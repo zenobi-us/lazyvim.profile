@@ -1,3 +1,5 @@
+local segment = require "dashboard-logo.segments"
+
 local source = debug.getinfo(1, "S").source:sub(2):gsub("\\", "/")
 local directory = assert(source:match "^(.*)/[^/]+$")
 
@@ -50,6 +52,32 @@ local function parse_line(line)
   return text, segments
 end
 
+-- Trim the trailing blanks and the shared left margin, then pad every line to
+-- one width. The block then centres on the art itself, and each line keeps its
+-- column positions relative to the others.
+local function normalise(lines)
+  local margin, width = math.huge, 0
+  for i = 1, #lines do
+    local text = (lines[i]:gsub(" +$", ""))
+    lines[i] = text
+    lines.segments[i] = segment.fit(lines.segments[i], #text)
+    if #text > 0 then
+      margin = math.min(margin, #text:match "^ *")
+      width = math.max(width, #text)
+    end
+  end
+  if margin == math.huge then margin = 0 end
+  width = math.max(0, width - margin)
+
+  for i = 1, #lines do
+    local text = lines[i]:sub(margin + 1)
+    lines[i] = text .. (" "):rep(width - #text)
+    lines.segments[i] = segment.fit(segment.drop(lines.segments[i], margin), width)
+  end
+  lines.width = width
+  return lines
+end
+
 local function load(name)
   local file = assert(io.open(directory .. "/" .. name .. ".ansi", "rb"))
   local content = file:read "*a"
@@ -62,7 +90,7 @@ local function load(name)
     lines[#lines + 1] = text
     lines.segments[#lines] = segments
   end
-  return lines
+  return normalise(lines)
 end
 
 return {

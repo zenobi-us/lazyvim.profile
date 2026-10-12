@@ -41,7 +41,25 @@ local custom_frame = logo.generate({ color = "#c678dd" })
 assert(custom_frame[1].color == custom_colors[1])
 
 local ansi = logo.render "grudge_axe"
-assert(ansi[1].segments[1].color == "#000000")
+assert(ansi[2].segments[1].color == "#000000")
+
+-- Every logo is a rectangle with no shared left margin, so a frontend that
+-- centres each line on its own width still centres the block on the art.
+for name in pairs(logo.logos) do
+  if name ~= "default" then
+    local art = logo.logos[name]
+    assert(art.width > 0, name .. ": empty canvas")
+    local margin = math.huge
+    for i = 1, #art do
+      assert(#art[i] == art.width, name .. ": line " .. i .. " is not the canvas width")
+      local segment_width = 0
+      for _, segment in ipairs(art.segments[i]) do segment_width = segment_width + #segment.text end
+      assert(segment_width == art.width, name .. ": segments of line " .. i .. " are not the canvas width")
+      if #(art[i]:gsub(" +$", "")) > 0 then margin = math.min(margin, #art[i]:match "^ *") end
+    end
+    assert(margin == 0, name .. ": shared left margin of " .. margin .. " columns")
+  end
+end
 
 local block_frame = logo.generate({
   color_offset = 0,
@@ -49,9 +67,18 @@ local block_frame = logo.generate({
   burn_waves = {},
 })
 assert(block_frame[3].line == lines[3])
-assert(block_frame[4].line == "  " .. lines[4])
-assert(block_frame[8].line == "  " .. lines[8])
+assert(block_frame[4].line == ("  " .. lines[4]):sub(1, lines.width))
+assert(block_frame[8].line == ("  " .. lines[8]):sub(1, lines.width))
 assert(block_frame[9].line == lines[9])
+
+-- A displaced line keeps the canvas width, so the block does not jitter
+-- sideways while the glitch runs.
+for i, item in ipairs(block_frame) do
+  assert(#item.line == lines.width, "glitched line " .. i .. " changed width")
+  local segment_width = 0
+  for _, segment in ipairs(item.segments) do segment_width = segment_width + #segment.text end
+  assert(segment_width == lines.width, "glitched segments of line " .. i .. " changed width")
+end
 
 local neovim_lines = logo.logos.neovim
 local clipped_frame = logo.generate({
@@ -59,8 +86,8 @@ local clipped_frame = logo.generate({
   glitch_blocks = { { first = #neovim_lines, last = #neovim_lines, offset = -4, ttl = 2 } },
   burn_waves = {},
 }, "neovim")
-assert(clipped_frame[#neovim_lines].line == "")
-assert(clipped_frame[#neovim_lines].segments[1].text == "")
+assert(clipped_frame[#neovim_lines].line == neovim_lines[#neovim_lines]:sub(5) .. "    ")
+assert(#clipped_frame[#neovim_lines].line == neovim_lines.width)
 
 local burn_frame = logo.generate({
   color_offset = 0,

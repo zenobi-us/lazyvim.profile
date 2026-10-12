@@ -1,3 +1,5 @@
+local segment = require "dashboard-logo.segments"
+
 local M = {}
 
 -- Dark alternating bands scroll slowly to mimic CRT scan lines.
@@ -76,33 +78,22 @@ function M.palette(color)
   return palette(color, color_luminance), palette(color, burn_luminance)
 end
 
+-- A displaced line keeps its original width, so the canvas stays rectangular
+-- and the frontend centres the whole block rather than each line on its own.
 local function glitch_line(line, offset)
-  if offset > 0 then return (" "):rep(offset) .. line end
-  if offset < 0 then return line:sub(-offset + 1) end
-  return line
+  if offset == 0 then return line end
+  local width = #line
+  if offset > 0 then return ((" "):rep(offset) .. line):sub(1, width) end
+  return line:sub(-offset + 1) .. (" "):rep(-offset)
 end
 
-local function glitch_segments(segments, offset)
+local function glitch_segments(segments, offset, width)
   if offset == 0 then return segments end
-  if offset > 0 then
-    local shifted = { { text = (" "):rep(offset) } }
-    for _, segment in ipairs(segments) do shifted[#shifted + 1] = segment end
-    return shifted
-  end
+  if offset < 0 then return segment.fit(segment.drop(segments, -offset), width) end
 
-  local shifted = {}
-  local remove = -offset
-  for _, segment in ipairs(segments) do
-    local text = segment.text
-    if remove >= #text then
-      remove = remove - #text
-    else
-      shifted[#shifted + 1] = { text = text:sub(remove + 1), color = segment.color }
-      remove = 0
-    end
-  end
-  if #shifted == 0 then shifted[1] = { text = "" } end
-  return shifted
+  local shifted = { { text = (" "):rep(offset) } }
+  for _, item in ipairs(segments) do shifted[#shifted + 1] = item end
+  return segment.fit(shifted, width)
 end
 
 local function block_at(blocks, line)
@@ -146,7 +137,7 @@ function M.apply(frame, state)
     local filter = burn_color or colors[((i - 1 + state.color_offset) % #colors) + 1]
     effected[i] = {
       line = glitch_line(item.line, offset),
-      segments = glitch_segments(item.segments, offset),
+      segments = glitch_segments(item.segments, offset, #item.line),
       color = filter,
       filter = filter,
       glitch = offset ~= 0,

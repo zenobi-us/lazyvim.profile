@@ -19,6 +19,9 @@ require("lazy").setup({
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     -- LazyVim core first, then extras, then local plugins.
     { import = "lazyvim.plugins.extras.ai.copilot" },
+    -- Language servers. Without these, `vim.lsp.buf.definition` has nothing to ask.
+    { import = "lazyvim.plugins.extras.lang.typescript" },
+    { import = "lazyvim.plugins.extras.lang.json" },
     { import = "plugins" },
     {
       "custom/dashboard-logo.nvim",

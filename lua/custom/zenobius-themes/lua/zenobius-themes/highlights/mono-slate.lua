@@ -297,12 +297,11 @@ function M.groups()
     SnacksNotifierError = { fg = p.bad, bg = p.bg_float },
     SnacksNotifierDebug = { fg = p.muted, bg = p.bg_float },
     SnacksNotifierTrace = { fg = p.faint, bg = p.bg_float },
-    SnacksPickerMatch = { fg = p.busy, bold = true },
-    SnacksPickerDir = { fg = p.faint },
-    SnacksPickerFile = { fg = p.fg_dim },
-    SnacksPickerPrompt = { fg = p.accent, bold = true },
-    SnacksPickerSelected = { fg = p.busy },
-    SnacksPickerTitle = { fg = p.bg, bg = p.accent, bold = true },
+    SnacksPickerGitStatusAdded = { fg = p.good },
+    SnacksPickerGitStatusModified = { fg = p.busy },
+    SnacksPickerGitStatusDeleted = { fg = p.bad_dim },
+    SnacksPickerGitStatusUntracked = { fg = p.accent },
+    SnacksPickerGitStatusIgnored = { fg = p.faint },
 
     -- fzf-lua
     FzfLuaNormal = { link = "NormalFloat" },

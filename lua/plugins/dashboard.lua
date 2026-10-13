@@ -21,6 +21,7 @@ return {
       opts.picker = opts.picker or {}
       opts.picker.sources = opts.picker.sources or {}
       opts.picker.sources.explorer = opts.picker.sources.explorer or {}
+      opts.picker.sources.explorer.hidden = true
       opts.picker.sources.explorer.layout = {
         preview = false,
         layout = {

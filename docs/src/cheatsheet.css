@@ -1,0 +1,12 @@
+.cheatsheet { scroll-margin-top: 140px; }
+.cheatsheet-controls { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) auto; gap: 12px; align-items: end; margin-block: 20px 12px; }
+.cheatsheet-controls label { display: grid; gap: 6px; font-size: 11px; color: var(--muted-foreground); min-width: 0; }
+.cheatsheet-controls :is(input, select) { width: 100%; min-width: 0; min-height: 40px; border: 1px solid var(--border); padding: 8px; border-radius: 0; color: var(--foreground); background: var(--background); font: inherit; }
+.cheatsheet-controls button { min-height: 40px; }
+.cheatsheet-status { color: var(--muted-foreground); font-size: 11px; }
+.cheatsheet-source { display: block; margin-top: 8px; font-size: 10px; }
+.cheatsheet-table td code { overflow-wrap: anywhere; white-space: normal; }
+.cheatsheet-empty { padding: 20px; border: 1px solid var(--border); background: var(--card); }
+.cheatsheet-empty p { margin-top: 8px; }
+@media (max-width: 1100px) { .cheatsheet-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 500px) { .cheatsheet-controls { grid-template-columns: minmax(0, 1fr); } .cheatsheet-controls :is(input, select, button) { min-height: 44px; } }

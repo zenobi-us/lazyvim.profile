@@ -6,3 +6,5 @@ debug
 foo.*
 *.log
 data
+docs/node_modules/
+docs/website/

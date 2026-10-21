@@ -271,14 +271,7 @@ export function DocumentationPage(): ReactElement {
                   </div>
                 ))}
               </dl>
-              <div className="profile-proposal">
-                <div>
-                  <Badge variant="outline">Design study</Badge>
-                  <h3>Compare the original cheatsheet concepts</h3>
-                  <p>The searchable reference table above implements option 01. The original three-option comparison remains available as a design study.</p>
-                </div>
-                <Button asChild variant="outline"><a href={`${import.meta.env.BASE_URL}cheatsheet-preview.html`}>Open UX preview <span aria-hidden="true">↗</span></a></Button>
-              </div>
+              <p><a href="#cheatsheet">Cheatsheet 01 — searchable keymapping reference <span aria-hidden="true">↑</span></a></p>
             </div>
           </section>
 

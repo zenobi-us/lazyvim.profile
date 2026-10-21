@@ -18,8 +18,7 @@ GitHub Actions publishes `docs/website` to
 GitHub Pages uses the **GitHub Actions** source.
 
 The website uses React, Vite, TanStack Router, Tailwind CSS v4, and shadcn/ui.
-Edit the application in `docs/src/` and the standalone cheatsheet UX comparison in
-`docs/public/cheatsheet-preview.html`.
+Edit the application in `docs/src/`.
 The Reference section includes cheatsheet option 01: a searchable keymap table with
 editor-mode and task filters, exact commands, source links, and an empty-state reset.
 Keep `docs/src/cheatsheet.tsx` in sync with `lua/config/keymaps.lua` when mappings change.
@@ -31,9 +30,9 @@ bun run dev
 ```
 
 Open <http://127.0.0.1:4273/lazyvim.profile/>.
-The cheatsheet comparison is at
-<http://127.0.0.1:4273/lazyvim.profile/cheatsheet-preview.html>.
-It proposes three interaction models; choosing one stores a browser-local preference only.
+Open Cheatsheet 01 at
+<http://127.0.0.1:4273/lazyvim.profile/#cheatsheet>.
+The discarded design-study variants are no longer included.
 
 Run `bun run build` from `docs` to typecheck and generate `docs/website`.
 Run `bun run preview` to serve that production build.

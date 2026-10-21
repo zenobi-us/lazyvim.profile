@@ -503,32 +503,6 @@
   overflow-wrap: anywhere;
 }
 
-.profile-proposal {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px 24px;
-  margin-top: 24px;
-  padding: 16px;
-  border: 1px solid var(--border);
-}
-
-.profile-proposal > div {
-  flex: 1 1 280px;
-}
-
-.profile-proposal h3 {
-  margin-top: 12px;
-}
-
-.profile-proposal p {
-  font-size: 12px;
-}
-
-.profile-proposal > a {
-  flex: 0 0 auto;
-}
-
 .profile-footer {
   display: flex;
   align-items: center;

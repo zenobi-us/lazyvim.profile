@@ -19,6 +19,9 @@ GitHub Pages uses the **GitHub Actions** source.
 
 The website uses React, Vite, TanStack Router, Tailwind CSS v4, and shadcn/ui.
 Edit the application in `docs/src/`.
+The Introduction uses the selected annotated feature ledger (variation 01).
+Edit its seven feature descriptions, origin labels, icons, and source paths in
+`docs/src/feature-introduction.tsx`; responsive layout lives in `feature-introduction.css`.
 The Reference section includes cheatsheet option 01: a searchable keymap table with
 editor-mode and task filters, exact commands, source links, and an empty-state reset.
 Keep `docs/src/cheatsheet.tsx` in sync with `lua/config/keymaps.lua` when mappings change.

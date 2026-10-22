@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Cheatsheet } from "./cheatsheet";
+import { FeatureIntroduction } from "./feature-introduction";
 import "./page.css";
 
 export function DocumentationPage(): ReactElement {
@@ -64,74 +65,7 @@ export function DocumentationPage(): ReactElement {
         </Card>
 
         <div className="profile-documentation">
-          <section className="profile-section" id="introduction" aria-labelledby="introduction-title">
-            <header className="profile-section-heading">
-              <p className="profile-eyebrow">The profile at a glance</p>
-              <h2 id="introduction-title">Introduction</h2>
-              <p>Familiar controls, readable notes, and a few personal touches.</p>
-            </header>
-            <div className="profile-section-content">
-              <div className="profile-section-intro">
-                <p>
-                  Keep Neovim’s editing tools without making every action a Vim-key exercise.
-                  This profile brings Windows-style shortcuts, arrow keys, and mouse navigation to everyday work.
-                </p>
-              </div>
-              <dl className="profile-reference-list">
-                <div>
-                  <dt>Windows-style editing keys</dt>
-                  <dd>
-                    Use <kbd>Ctrl+s</kbd> to save and <kbd>Ctrl+c</kbd>, <kbd>Ctrl+x</kbd>, and <kbd>Ctrl+v</kbd> for the clipboard.
-                    Select lines with <kbd>Shift+Up / Down</kbd>, move them with <kbd>Ctrl+Shift+Up / Down</kbd>,
-                    and use the mouse to navigate. <a href="#cheatsheet">See the mode-specific keymaps in Cheatsheet 01</a>.
-                  </dd>
-                </div>
-                <div>
-                  <dt>Markdown rendering, with the source still visible</dt>
-                  <dd>
-                    Render Markdown inside the editor. Code fences have full-width backgrounds, language labels,
-                    and visible delimiters, so the presentation does not hide the text you are editing.
-                  </dd>
-                </div>
-                <div>
-                  <dt>Normal mode when you focus the file tree</dt>
-                  <dd>
-                    Enter the Snacks file tree from an Insert-mode buffer and the profile automatically switches to Normal mode.
-                    Browse files without first pressing <kbd>Esc</kbd>.
-                  </dd>
-                </div>
-                <div>
-                  <dt>Double-click a symbol to go to its definition</dt>
-                  <dd>
-                    Double-click or <kbd>Ctrl+Left click</kbd> to request an LSP definition.
-                    <kbd>Alt+Left click</kbd> requests a type definition. When a suitable language server is unavailable,
-                    the navigation helper tries a file path or local declaration.
-                  </dd>
-                </div>
-                <div>
-                  <dt>Jump between words with Ctrl+arrows</dt>
-                  <dd>
-                    Use <kbd>Ctrl+Left</kbd> and <kbd>Ctrl+Right</kbd> to move by word in Normal and Insert modes.
-                    Modified arrow keys and mouse gestures need support from your terminal.
-                  </dd>
-                </div>
-                <div>
-                  <dt>Custom themes: Monoslate</dt>
-                  <dd>
-                    The bundled Monoslate theme pairs a dark, mostly greyscale palette with restrained accents.
-                    Try it with <code>:colorscheme mono-slate</code>.
-                  </dd>
-                </div>
-                <div>
-                  <dt>An animated dashboard logo</dt>
-                  <dd>
-                    The Snacks dashboard opens with an animated orbit logo from the local <code>dashboard-logo.nvim</code> plugin.
-                    Its colour follows the active theme’s <code>Special</code> highlight.
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          </section>
+          <FeatureIntroduction />
 
           <section className="profile-section" id="tutorial" aria-labelledby="tutorial-title">
             <SectionHeading id="tutorial-title" number="01" title="Tutorial" intent="Learning-oriented" description="Install the profile and save your first note." />

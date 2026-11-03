@@ -47,7 +47,7 @@ function M.stop()
   _G.snacks_dashboard_logo_timer = nil
 end
 
----@param opts? { logo?: string, effect?: string, color?: string|integer, update?: fun(frame: table[]) }
+---@param opts? { logo?: string, shape?: string, effect?: string, color?: string|integer, update?: fun(frame: table[]) }
 ---@return { section: fun(): table, stop: fun() }
 function M.setup(opts)
   opts = opts or {}
@@ -56,6 +56,7 @@ function M.setup(opts)
   local section_cache_frame
   local animation = logo.new {
     logo = opts.logo,
+    shape = opts.shape,
     effect = opts.effect,
     color = color(opts.color),
     update = function(next_frame)

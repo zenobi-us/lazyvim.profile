@@ -7,14 +7,17 @@ package.path = root .. "/lua/?.lua;" .. root .. "/lua/?/init.lua;" .. package.pa
 
 local watch = false
 local reload = false
-local effect = "glitch"
+local effect
+local shape
 local color
 for _, value in pairs(arg) do
   if value == "--watch" or value == "-w" then watch = true end
   if value == "--reload" then reload = true end
   effect = value:match "^%-%-effect=(.+)$" or effect
+  shape = value:match "^%-%-shape=(.+)$" or shape
   color = value:match "^%-%-color=(#%x%x%x%x%x%x)$" or color
 end
+effect = effect or (shape and "none") or "glitch"
 
 local state = { color_offset = 0, glitch_offsets = {}, color = color }
 
@@ -46,7 +49,7 @@ local function render()
   end
   logo = loaded
 
-  local frame = logo.generate(state, nil, effect)
+  local frame = logo.generate(state, nil, effect, shape)
   local rows, columns = terminal_size()
   local top = math.max(0, math.floor((rows - #frame) / 2))
   local output = { "\27[2J\27[H", ("\n"):rep(top) }
@@ -71,8 +74,9 @@ local function render()
   end
   io.write(table.concat(output))
   io.flush()
-  logo.advance(state, nil, effect)
-  return logo.effects[effect].interval or 120
+  logo.advance(state, nil, effect, shape)
+  local interval = logo.effects[effect].interval or 120
+  return shape and math.min(interval, logo.shapes[shape].interval) or interval
 end
 
 repeat

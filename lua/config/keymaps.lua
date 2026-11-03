@@ -43,3 +43,5 @@ map("n", "<2-LeftMouse>", function() goto_thing("definition") end, { desc = "Go 
 map("n", "<C-LeftMouse>", function() goto_thing("definition") end, { desc = "Go to definition" })
 map("n", "<A-LeftMouse>", function() goto_thing("type_definition") end, { desc = "Go to type definition" })
 map("n", "gd", function() goto_thing("definition") end, { desc = "Go to definition" })
+
+map("n", "<leader>cI", vim.lsp.buf.hover, { desc = "Hover" })

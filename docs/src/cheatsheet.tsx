@@ -97,5 +97,6 @@ const mappings = [
   { line: 43, task: 'Go to code', action: 'Go to definition', key: '<C-LeftMouse>', modes: ['n'], command: 'goto_thing("definition")' },
   { line: 44, task: 'Go to code', action: 'Go to type definition', key: '<A-LeftMouse>', modes: ['n'], command: 'goto_thing("type_definition")' },
   { line: 45, task: 'Go to code', action: 'Go to definition', key: 'gd', modes: ['n'], command: 'goto_thing("definition")' },
+  { line: 47, task: 'Go to code', action: 'Hover', key: '<leader>cI', modes: ['n'], command: 'vim.lsp.buf.hover()' },
 ];
 const tasks = [...new Set(mappings.map((mapping) => mapping.task))];

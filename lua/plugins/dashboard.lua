@@ -4,7 +4,7 @@ return {
     dependencies = { "custom/dashboard-logo.nvim" },
     opts = function(_, opts)
       local logo = require("dashboard-logo.snacks").setup({
-        shape = "crystal",
+        shape = "torus",
         effect = "none",
         color = vim.api.nvim_get_hl(0, { name = "Special", link = false }).fg,
         update = function()

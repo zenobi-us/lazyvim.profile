@@ -11,6 +11,11 @@ git clone https://github.com/zenobi-us/lazyvim.profile.git ~/.config/nvim
 Markdown code fences render with full-width backgrounds using `render-markdown.nvim`.
 Markdown language features use `markdown-oxide`, which must be available on `$PATH`.
 
+Snacks image rendering is enabled in `lua/plugins/image.lua`.
+Use a terminal with Kitty graphics protocol support, such as Kitty or Ghostty.
+ImageMagick (`magick`) is required for non-PNG formats.
+Run `:checkhealth snacks` to check image-rendering dependencies and terminal support.
+
 ## Website deployment
 
 GitHub Actions publishes `docs/website` to

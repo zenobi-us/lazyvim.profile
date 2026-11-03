@@ -78,4 +78,13 @@ Crystal previews: >sh
   ./lua/custom/dashboard-logo.nvim/cli.lua --watch --shape=crystal --effect=sonar
 <
 
+The torus (`shape = "torus"`) spins around the view axis and rocks its tilt.
+The opening stays visible throughout the 24-second cycle. Fixed lighting and
+a specular highlight shade the curved surface. Only the nearest surface is
+rendered. It uses the same fixed canvas and terminal-cell correction.
+
+Torus preview: >sh
+  ./lua/custom/dashboard-logo.nvim/cli.lua --watch --shape=torus
+<
+
 vim:tw=78:ts=8:noet:ft=help:norl:

@@ -105,6 +105,12 @@ axes. Visible triangular faces use fixed-source lighting; bright edges outline
 the facets. Rear faces are culled, and face fills use a depth buffer. It uses
 the same fixed canvas and terminal-cell correction, with a 24-second cycle.
 
+The torus (`shape = "torus"`) spins around the view axis while rocking its tilt.
+Its opening stays visible throughout the 24-second cycle. Fixed lighting and a
+small specular highlight reveal the curved tube. View rays stop at the nearest
+surface, so rear surfaces do not show through. It uses the same fixed canvas
+and terminal-cell correction as the other shapes.
+
 Select either `shape` or `logo`, not both. Shapes default to `effect = "none"`
 and a mint tint. The Snacks adapter accepts the same shape options.
 
@@ -137,7 +143,7 @@ Creates an animation object.
 | Option | Type | Description |
 | --- | --- | --- |
 | `logo` | `string` | Registered logo name. |
-| `shape` | `string` | Generated shape: `crystal`, `globe`, or `gyroscope`. Mutually exclusive with `logo`. |
+| `shape` | `string` | Generated shape: `crystal`, `globe`, `gyroscope`, or `torus`. Mutually exclusive with `logo`. |
 | `effect` | `string` | Registered effect name. Defaults to `none` for shapes, `glitch` for logos. |
 | `color` | `string` | Shape or effect base colour in `#rrggbb` format. |
 | `update` | `function(frame)` | Called after each `tick()`. |
@@ -164,7 +170,7 @@ Table of registered effects. `effects.default` contains the default effect name.
 
 #### `shapes`
 
-Table of registered shape renderers: `crystal`, `globe`, and `gyroscope`.
+Table of registered shape renderers: `crystal`, `globe`, `gyroscope`, and `torus`.
 
 ### `require("dashboard-logo.snacks")`
 
@@ -205,13 +211,14 @@ Use another effect or colour:
 ./cli.lua --watch --shape=globe --effect=sonar
 ./cli.lua --watch --shape=gyroscope --effect=glitch --color=#61afef
 ./cli.lua --watch --shape=crystal --effect=glitch --color=#61afef
+./cli.lua --watch --shape=torus --color=#61afef
 ```
 
 | Option | Description |
 | --- | --- |
 | `-w`, `--watch` | Keep rendering frames until interrupted. |
 | `--reload` | Reload Lua modules before every frame (useful while editing). |
-| `--shape=NAME` | Select a generated shape: `crystal`, `globe`, or `gyroscope`. |
+| `--shape=NAME` | Select a generated shape: `crystal`, `globe`, `gyroscope`, or `torus`. |
 | `--effect=NAME` | Select an effect. Defaults to `none` for shapes, `glitch` for logos. |
 | `--color=#rrggbb` | Set the shape or effect base colour. Shapes and sonar default to mint; glitch defaults to green. |
 

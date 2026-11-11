@@ -17,6 +17,9 @@ return {
           end
         end,
       })
+      vim.api.nvim_create_user_command("DashboardPick", function()
+        require("dashboard-logo.snacks").pick()
+      end, { desc = "Choose a dashboard shape, logo and effect", force = true })
       opts = opts or {}
       opts.dashboard = { sections = { logo.section, { section = "startup" } } }
       opts.picker = opts.picker or {}

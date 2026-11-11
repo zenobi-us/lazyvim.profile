@@ -12,6 +12,28 @@ Neovim: >lua
   local section = logo.section
 <
 
+INTERACTIVE GALLERY                                    *dashboard-logo-picker*
+
+This profile registers :DashboardPick. After setup(), the same gallery opens
+with: >lua
+  require("dashboard-logo.snacks").pick()
+<
+Search shape/logo and effect together, for example "iris none" or "logo glitch".
+The current choice starts first. Movement animates the preview only.
+  Enter   Apply for this session and close.
+  CTRL-S  Save as the default, apply, and close.
+  Escape  Close without changing the dashboard.
+
+The preview keeps the configured tint and original artwork size. It is hidden
+on terminals too small for the artwork. Closing or hiding it stops its timer.
+
+Saved choices use stdpath("state")/dashboard-logo.json. Startup prefers a valid
+saved choice over configured source/effect options. Tint is not saved. Invalid
+preferences warn and use configured defaults. Failed saves keep the picker open.
+
+The setup() result also exposes current(), select({kind,name,effect}), and
+pick(). select() keeps the section function stable and does not save a default.
+
 Standalone preview: >sh
   ./lua/custom/dashboard-logo.nvim/cli.lua --watch --color=#c678dd
 <
@@ -85,6 +107,24 @@ rendered. It uses the same fixed canvas and terminal-cell correction.
 
 Torus preview: >sh
   ./lua/custom/dashboard-logo.nvim/cli.lua --watch --shape=torus
+<
+
+Additional shapes (all use the same canvas and a 24-second loop):
+  trefoil          Shaded tubular knot with depth-tested over/under crossings.
+  mobius           Half-twisted ribbon, shaded on both sides.
+  wave_grid        Perspective mesh deformed by travelling waves.
+  dna              Rotating helical tubes with connecting rungs.
+  accretion_disc   Orbiting particles with curved fading trails and a dark centre.
+  planetary_system Three shaded planets orbiting a luminous star.
+  superformula     Surface morphing between rounded, lobed, and star-like forms.
+  iris             Overlapping blades opening and closing an aperture.
+
+Use any name with `setup { shape = "name" }`. Omit `effect` for no overlay.
+The default dashboard selection is not changed by registering a new shape.
+
+Preview examples: >sh
+  ./lua/custom/dashboard-logo.nvim/cli.lua --watch --shape=trefoil
+  ./lua/custom/dashboard-logo.nvim/cli.lua --watch --shape=iris
 <
 
 vim:tw=78:ts=8:noet:ft=help:norl:

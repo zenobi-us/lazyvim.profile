@@ -51,6 +51,36 @@ Stop the animation timer when needed:
 dashboard_logo.stop()
 ```
 
+### Interactive animation gallery
+
+This profile provides `:DashboardPick`. Plugin users can open the same gallery
+after `setup()` with:
+
+```lua
+require("dashboard-logo.snacks").pick()
+```
+
+The Snacks picker lists every registered shape or logo paired with every effect.
+Search for a combination such as `iris none`, `trefoil sonar`, or `logo glitch`.
+The current choice starts first. Moving through results animates an isolated
+preview without changing the dashboard.
+
+| Input | Action |
+| --- | --- |
+| `Enter` | Apply the highlighted choice for this session and close. |
+| `Ctrl-s` | Save the choice as the default, apply it, and close. |
+| `Esc` | Close without changing the dashboard or saved default. |
+
+The preview preserves the current tint and artwork dimensions. It is hidden
+when the terminal cannot fit the full artwork. Its timer stops when the preview
+is hidden or the picker closes; it does not depend on a visible dashboard.
+
+Saved preferences live at `stdpath("state")/dashboard-logo.json`. Only `kind`,
+`name`, and `effect` are saved; colour remains controlled by the configured tint.
+Startup uses a valid saved choice before configured options, then core defaults.
+An invalid saved preference produces a warning and leaves configured defaults
+in use. Failed saves leave the picker open and preserve the previous preference.
+
 ### Core renderer
 
 The core module has no Neovim dependency:
@@ -111,6 +141,23 @@ small specular highlight reveal the curved tube. View rays stop at the nearest
 surface, so rear surfaces do not show through. It uses the same fixed canvas
 and terminal-cell correction as the other shapes.
 
+Eight additional shapes use the same canvas, tint, and a 24-second loop:
+
+| Shape name | Geometry and motion |
+| --- | --- |
+| `trefoil` | A rotating, shaded tubular knot with three lobes and depth-tested crossings. |
+| `mobius` | A broad half-twisted ribbon with a continuous seam and shading on both sides. |
+| `wave_grid` | A perspective grid deformed by overlapping travelling waves. |
+| `dna` | Two rotating helical tubes joined by rungs; near strands hide rear connections. |
+| `accretion_disc` | Particles at different radii orbit a dark centre, leaving fading curved trails. |
+| `planetary_system` | Three shaded planets orbit a luminous star at different speeds. |
+| `superformula` | A shaded surface morphs between rounded, lobed, and star-like silhouettes. |
+| `iris` | Eight overlapping blades rotate to open and close an octagonal aperture. |
+
+Select any shape with `new { shape = "trefoil" }` or the same option in
+`require("dashboard-logo.snacks").setup`. Shapes can also use the existing
+`sonar` and `glitch` effects; omit `effect` for unfiltered geometry.
+
 Select either `shape` or `logo`, not both. Shapes default to `effect = "none"`
 and a mint tint. The Snacks adapter accepts the same shape options.
 
@@ -143,7 +190,7 @@ Creates an animation object.
 | Option | Type | Description |
 | --- | --- | --- |
 | `logo` | `string` | Registered logo name. |
-| `shape` | `string` | Generated shape: `crystal`, `globe`, `gyroscope`, or `torus`. Mutually exclusive with `logo`. |
+| `shape` | `string` | Registered generated shape name from the catalogue above. Mutually exclusive with `logo`. |
 | `effect` | `string` | Registered effect name. Defaults to `none` for shapes, `glitch` for logos. |
 | `color` | `string` | Shape or effect base colour in `#rrggbb` format. |
 | `update` | `function(frame)` | Called after each `tick()`. |
@@ -170,22 +217,29 @@ Table of registered effects. `effects.default` contains the default effect name.
 
 #### `shapes`
 
-Table of registered shape renderers: `crystal`, `globe`, `gyroscope`, and `torus`.
+Table of registered shape renderers. Includes all names in the generated-shape catalogue above.
 
 ### `require("dashboard-logo.snacks")`
 
 #### `setup(opts?) -> integration`
 
-Creates a Snacks dashboard section and starts its animation timer. Supports `logo`, `shape`, `effect`, `color`, and `update` options. Neovim integer colours are converted to `#rrggbb` before reaching the core renderer.
+Creates a stable Snacks dashboard section. Supports `logo`, `shape`, `effect`, `color`, and `update` options. A valid saved choice overrides the configured source and effect. Neovim integer colours are converted to `#rrggbb` before reaching the core renderer.
 
 Returns:
 
 - `section()` — Snacks dashboard section provider.
 - `stop()` — stops and closes the animation timer.
+- `current()` — returns a copy of the current `{ kind, name, effect }` selection.
+- `select(selection)` — replaces the animation without replacing the section provider or saving a default.
+- `pick()` — opens the gallery for this integration and returns the Snacks picker.
 
 #### `stop()`
 
 Stops the active global dashboard-logo timer.
+
+#### `pick() -> snacks.Picker`
+
+Opens the gallery for the active integration. Call `setup()` first.
 
 ## CLI
 
@@ -212,14 +266,43 @@ Use another effect or colour:
 ./cli.lua --watch --shape=gyroscope --effect=glitch --color=#61afef
 ./cli.lua --watch --shape=crystal --effect=glitch --color=#61afef
 ./cli.lua --watch --shape=torus --color=#61afef
+./cli.lua --watch --shape=trefoil
+./cli.lua --watch --shape=mobius
+./cli.lua --watch --shape=wave_grid
+./cli.lua --watch --shape=dna
+./cli.lua --watch --shape=accretion_disc
+./cli.lua --watch --shape=planetary_system
+./cli.lua --watch --shape=superformula
+./cli.lua --watch --shape=iris
 ```
 
 | Option | Description |
 | --- | --- |
 | `-w`, `--watch` | Keep rendering frames until interrupted. |
 | `--reload` | Reload Lua modules before every frame (useful while editing). |
-| `--shape=NAME` | Select a generated shape: `crystal`, `globe`, `gyroscope`, or `torus`. |
+| `--shape=NAME` | Select any registered shape from the generated-shape catalogue above. |
 | `--effect=NAME` | Select an effect. Defaults to `none` for shapes, `glitch` for logos. |
 | `--color=#rrggbb` | Set the shape or effect base colour. Shapes and sonar default to mint; glitch defaults to green. |
 
 The CLI loads dashboard-logo once and reuses the parsed logo in watch mode, avoiding repeated ANSI parsing and module initialization. Pass `--reload` when developing logos or effects to reload the Lua modules before every frame. Press `Ctrl-C` to stop watch mode.
+
+## Verification
+
+From the plugin directory, run the new shape behavior checks with both runtimes:
+
+```sh
+lua tests/shapes.lua
+luajit tests/shapes.lua
+```
+
+These checks cover all eight new shapes, including animation loops, canvas and
+segment invariants, tint changes, depth ordering, morphing, and aperture motion.
+For a focused run, append one shape name, for example `lua tests/shapes.lua iris`.
+
+Neovim integration checks use isolated temporary preference directories:
+
+```sh
+nvim --headless -u NONE -l tests/selection.lua
+nvim --headless -u NONE -l tests/dashboard-selection.lua
+```
+                                                                                                                                                                                                                                                                                                                                                   
